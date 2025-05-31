@@ -1,0 +1,23 @@
+<p-dialog header="Registro de saldo" [modal]="true" [(visible)]="visible" (onHide)="closeModal()" draggable="false">
+    <span class="text-sm text-slate-300 block mb-5">Registre seu saldo atual</span>
+
+    <form (submit)="sendForm()" [formGroup]="formData">
+        <div class="flex flex-col gap-1 mb-5">
+            <label for="balance" class="font-semibold w-24">Saldo</label>
+            <p-inputnumber formControlName="balance" id="balance" mode="currency" currency="BRL" locale="pt-BR" autocomplete="off"></p-inputnumber>
+        </div>
+
+        <div class="flex justify-end gap-2">
+            <button class="button-custom bg-modal-cancel hover:bg-modal-cancel/80" type="button" (click)="closeModal()">Cancelar</button>
+            <button class="button-custom bg-modal-save hover:bg-modal-save/80 disabled:bg-modal-save/50 disabled:text-white/50" type="submit" [disabled]="formData.invalid">Salvar</button>
+        </div>
+    </form>
+</p-dialog> 
+
+
+<!-- <p-dialog header="Renda fixa" [modal]="true" [(visible)]="visible" (onHide)="closeModal()" draggable="false">
+    <div class="flex justify-end gap-2">
+        <button class="button-custom bg-modal-cancel hover:bg-modal-cancel/80" (click)="closeModal()">Cancelar</button>
+        <button class="button-custom bg-modal-save hover:bg-modal-save/80">Salvar</button>
+    </div>
+</p-dialog> -->

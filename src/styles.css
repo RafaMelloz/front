@@ -1,1 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@plugin "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
+
+@theme{
+    --color-blue-border: color-mix(in oklab, oklch(37.9% 0.146 265.522) 40%, transparent);
+    --color-modal-bg: #00091A;
+    --color-modal-save: #007EF0;
+    --color-modal-cancel: #111A2C;
+}
+
+body{
+    @apply bg-slate-950 min-h-screen text-slate-200 !px-5 py-2; 
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    @apply outline-none ring-0;
+}
+
+.card-button {
+    @apply text-left py-2.5 pl-5 cursor-pointer transition-all duration-200;
+
+    i{
+        @apply text-xs;
+    }    
+}
+
+.card-button:hover {
+    @apply bg-slate-950;
+}
+
+.gradient {
+    background: linear-gradient(90deg, rgba(16, 58, 105, 1) 35%, rgba(5, 22, 56, 1) 100%);
+}
+
+.button-custom {
+    @apply py-2 px-3 rounded-md cursor-pointer disabled:cursor-not-allowed;
+}
+
+.button-google{
+    @apply w-full py-2.5 text-white font-semibold bg-slate-950 rounded-md relative hover:scale-105 transition duration-300 hover:cursor-pointer;
+}
+
+/* PrimeNG Customization */
+tspan{
+    fill: white !important;
+}
+
+.p-tooltip .p-tooltip-text {
+    @apply text-xs bg-zinc-950;
+}
+
+.p-tooltip-bottom .p-tooltip-arrow{
+    @apply border-b-zinc-950!;
+}
+
+.p-dialog{
+    @apply bg-modal-bg! border-blue-500/40! w-11/12 md:w-1/2;
+}
+
+.p-dialog-header{
+    @apply pb-0.5!;
+}
+
+p-inputnumber{
+    @apply w-full
+}
+
+.p-inputnumber-input, input{
+    @apply bg-slate-950! border-2 w-full! text-slate-200 border-blue-border! hover:border-blue-500/80! focus:border-blue-500/80!
+}

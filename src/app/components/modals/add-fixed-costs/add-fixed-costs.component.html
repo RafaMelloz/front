@@ -1,0 +1,34 @@
+<p-dialog header="Despesa fixas" [modal]="true" [(visible)]="visible" (onHide)="closeModal()" draggable="false">
+    <span class="text-sm text-slate-300 block mb-5">Registre suas despesas mensais</span>
+
+    <form (submit)="sendForm()" [formGroup]="formData">
+        <div class="flex gap-4 mb-5 items-end">
+            <label for="name" class="font-semibold w-full">Nome
+                <input pInputText formControlName="name" id="name" />
+            </label>
+
+            <label for="value" class="font-semibold w-full">Valor
+                <p-inputnumber formControlName="value" id="value" mode="currency" currency="BRL" locale="pt-BR"
+                    autocomplete="off"></p-inputnumber>
+            </label>
+
+            <button type="button" (click)="addItemTable()"
+                class="h-10 rounded-lg px-3 cursor-pointer disabled:cursor-not-allowed bg-green-500 disabled:bg-green-700 disabled:text-white/50"
+                [disabled]="formData.invalid">
+                <i class="pi pi-check"></i>
+            </button>
+        </div>
+
+        @if (dataTable.length > 0) {
+        <app-default-table [(list)]="dataTable"></app-default-table>
+        }
+
+        <div class="flex justify-end gap-2">
+            <button class="button-custom bg-modal-cancel hover:bg-modal-cancel/80" type="button"
+                (click)="closeModal()">Cancelar</button>
+            <button
+                class="button-custom bg-modal-save hover:bg-modal-save/80 disabled:bg-modal-save/50 disabled:text-white/50"
+                type="submit" [disabled]="dataTable.length < 1">Salvar</button>
+        </div>
+    </form>
+</p-dialog>

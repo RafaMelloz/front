@@ -1,0 +1,23 @@
+<table class="min-w-full divide-y divide-blue-border  shadow mb-5">
+    <thead>
+        <tr>
+            <th class="py-2 text-center text-xs font-medium uppercase">Nome</th>
+            <th class="py-2 text-center text-xs font-medium uppercase">Valor</th>
+            <th class="py-2 text-center text-xs font-medium uppercase">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (item of list; let i = $index; track $index) {
+            <tr>
+                <td class="py-0.5 text-center text-xs md:text-sm">{{ item.name }}</td>
+                <td class="py-0.5 text-center text-xs md:text-sm">{{ item.value | currency: 'BRL' }}</td>
+                <td class="py-0.5 text-center text-xs md:text-sm">
+                    <button (click)="removeItem(i)"
+                        class="rounded-full py-2 px-3  cursor-pointer text-red-500 hover:bg-red-700/20 ">
+                        <i class="pi pi-trash" style="font-size: 14px;"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

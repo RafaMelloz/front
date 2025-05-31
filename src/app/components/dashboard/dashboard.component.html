@@ -32,8 +32,8 @@
                 <i class="pi pi-chevron-right"></i>
             </button>
 
-            <button class="card-button border-blue-border border-b-2 border-r-2 md:border-r-0">
-                Ganhos aleatorios
+            <button (click)="showModal('visiAddWindfall')" class="card-button border-blue-border border-b-2 border-r-2 md:border-r-0">
+                Ganhos inesperados
                 <i class="pi pi-chevron-right"></i>
             </button>
 
@@ -47,8 +47,8 @@
                 <i class="pi pi-chevron-right"></i>
             </button>
 
-            <button class="card-button">
-                Despesas aleatorias
+            <button (click)="showModal('visiAddUnexpectedCosts')" class="card-button">
+                Despesas inesperadas
                 <i class="pi pi-chevron-right"></i>
             </button>
         </div>
@@ -84,6 +84,13 @@
     [dataTable]="fixedIncome"
 />
 
+<modal-add-windfall 
+    [visible]="visiAddWindfall"
+    [variableName]="'visiAddWindfall'"
+    (visibilityChanged)="visibilityChange($event)"
+    [dataTable]="windfall"
+/>
+
 
 <modal-add-maximum-spending 
     [visible]="visiAddMaximumSpending"
@@ -97,5 +104,12 @@
     [variableName]="'visiAddFixedCosts'"
     (visibilityChanged)="visibilityChange($event)"
     [dataTable]="fixedCosts"
+/>
+
+<modal-add-unexpected-costs 
+    [visible]="visiAddUnexpectedCosts"
+    [variableName]="'visiAddUnexpectedCosts'"
+    (visibilityChanged)="visibilityChange($event)"
+    [dataTable]="unexpectedCosts"
 />
 

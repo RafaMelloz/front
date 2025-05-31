@@ -10,6 +10,8 @@ import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 import { AddFixedCostsComponent } from '../modals/add-fixed-costs/add-fixed-costs.component';
 import { AddMaximumSpendingComponent } from "../modals/add-maximum-spending/add-maximum-spending.component";
+import { AddWindfallComponent } from "../modals/add-windfall/add-windfall.component";
+import { AddUnexpectedCostsComponent } from "../modals/add-unexpected-costs/add-unexpected-costs.component";
 
 interface Data {
   name: string;
@@ -28,9 +30,10 @@ interface Data {
     AddMaximumSpendingComponent,
     EarningSpendingChartComponent,
     EarningSpendingTableComponent,
+    AddWindfallComponent,
+    AddUnexpectedCostsComponent
 ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
 })
 
 
@@ -38,6 +41,8 @@ interface Data {
 export class DashboardComponent implements OnInit {
   public balance: number = 0;
   public maximumSpending: number = 0;
+  public windfall: Data[] = [];
+  public unexpectedCosts: Data[] = [];
 
   public fixedIncome: Data[] = [];
   public fixedCosts: Data[] = [];
@@ -45,6 +50,8 @@ export class DashboardComponent implements OnInit {
   // variaveis de controle das modals
   visiAddBalance: boolean = false;
   visiAddFixedIncome: boolean = false;
+  visiAddWindfall: boolean = false;
+  visiAddUnexpectedCosts: boolean = false;
   visiAddMaximumSpending: boolean = false;
   visiAddFixedCosts: boolean = false;
 
@@ -58,7 +65,9 @@ export class DashboardComponent implements OnInit {
         console.log(data);
 
         this.balance = data.balance;
-        this.maximumSpending = data.maximumSpending;
+        this.maximumSpending = data.maximumSpending;  
+        this.windfall = data.windfall;
+        this.unexpectedCosts = data.unexpectedCosts;
         
         this.fixedIncome = data.fixedIncome;
         this.fixedCosts = data.fixedCosts;

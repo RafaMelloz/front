@@ -31,7 +31,17 @@ export class DataService {
 
     return from(setDoc(userDocRef, {
       fixedIncome: data,
-      updatedAt: new Date(),
+    }, { merge: true }));
+  }
+
+  public changeWindfall(data: any[]) {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuário não logado');
+
+    const userDocRef = doc(this.firestore, `users/${user.uid}`);
+
+    return from(setDoc(userDocRef, {
+      windfall: data,
     }, { merge: true }));
   }
 
@@ -46,9 +56,6 @@ export class DataService {
     }, { merge: true }));
   }
 
-
-
-
   public changeFixedCosts(data: any[]) {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuário não logado');
@@ -57,7 +64,16 @@ export class DataService {
 
     return from(setDoc(userDocRef, {
       fixedCosts: data,
-      updatedAt: new Date(),
+    }, { merge: true }));
+  }
+
+  public changeUnexpectedCosts(data: any[]) {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuário não logado');
+    const userDocRef = doc(this.firestore, `users/${user.uid}`);
+
+    return from(setDoc(userDocRef, {
+      unexpectedCosts: data,
     }, { merge: true }));
   }
   

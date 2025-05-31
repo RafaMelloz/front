@@ -34,8 +34,12 @@ export class AuthService {
 
         balance:0, // Saldo do usuário
         maximumSpending: 0, // Gasto máximo do usuário
+
         fixedIncome:[], // Renda fixa do usuário
         fixedCosts:[], // Gastos fixos do usuário
+
+        windfall: [], // Ganhos inesperados do usuário
+        unexpectedCosts: [], // Gastos inesperados do usuário
 
         createdAt: new Date()
       });

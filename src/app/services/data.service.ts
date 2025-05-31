@@ -35,6 +35,20 @@ export class DataService {
     }, { merge: true }));
   }
 
+
+  public changeMaximumSpending(data: any) {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuário não logado');
+
+    const balanceDoc = doc(this.firestore, `users/${user.uid}`);
+    return from(setDoc(balanceDoc, {
+      maximumSpending: data.maximumSpending,
+    }, { merge: true }));
+  }
+
+
+
+
   public changeFixedCosts(data: any[]) {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuário não logado');
@@ -47,7 +61,6 @@ export class DataService {
     }, { merge: true }));
   }
   
-
   public getData(): Observable<any> {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuário não logado');

@@ -1,13 +1,13 @@
 <header class="text-sm sm:text-base flex gap-2 mb-2.5">
     <span
-        class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-green-500"
+        class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-blue-600"
         pTooltip="Saldo atual" tooltipPosition="bottom">
         {{ balance | currency:'BRL':'symbol' }}
     </span>
     <span
-        class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-yellow-500"
-        pTooltip="Dísponível para gastar" tooltipPosition="bottom">
-        R$ 1.000,00
+        class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-green-500"
+        pTooltip="Disponivel para gastar no mês" tooltipPosition="bottom">
+        {{ maximumSpending | currency:'BRL':'symbol' }}
     </span>
     <span
         class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-red-500"
@@ -37,8 +37,8 @@
                 <i class="pi pi-chevron-right"></i>
             </button>
 
-            <button class="card-button border-blue-border border-r-0 md:border-r-2 border-b-2 md:border-b-0">
-                Gasto máximo
+            <button (click)="showModal('visiAddMaximumSpending')" class="card-button border-blue-border border-r-0 md:border-r-2 border-b-2 md:border-b-0">
+                Disponivel para gastar
                 <i class="pi pi-chevron-right"></i>
             </button>
 
@@ -84,9 +84,18 @@
     [dataTable]="fixedIncome"
 />
 
+
+<modal-add-maximum-spending 
+    [visible]="visiAddMaximumSpending"
+    [variableName]="'visiAddMaximumSpending'"
+    (visibilityChanged)="visibilityChange($event)"
+    [currentValue]="maximumSpending"
+/>
+
 <modal-add-fixed-costs 
     [visible]="visiAddFixedCosts"
     [variableName]="'visiAddFixedCosts'"
     (visibilityChanged)="visibilityChange($event)"
     [dataTable]="fixedCosts"
 />
+

@@ -9,6 +9,7 @@ import { EarningSpendingTableComponent } from "../earning-spending-table/earning
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 import { AddFixedCostsComponent } from '../modals/add-fixed-costs/add-fixed-costs.component';
+import { AddMaximumSpendingComponent } from "../modals/add-maximum-spending/add-maximum-spending.component";
 
 interface Data {
   name: string;
@@ -21,12 +22,13 @@ interface Data {
     CommonModule,
     TooltipModule,
     DialogModule,
-    AddBalanceComponent, 
-    AddFixedIncomeComponent, 
+    AddBalanceComponent,
+    AddFixedIncomeComponent,
     AddFixedCostsComponent,
-    EarningSpendingChartComponent, 
-    EarningSpendingTableComponent
-  ],
+    AddMaximumSpendingComponent,
+    EarningSpendingChartComponent,
+    EarningSpendingTableComponent,
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -35,6 +37,7 @@ interface Data {
 
 export class DashboardComponent implements OnInit {
   public balance: number = 0;
+  public maximumSpending: number = 0;
 
   public fixedIncome: Data[] = [];
   public fixedCosts: Data[] = [];
@@ -42,27 +45,26 @@ export class DashboardComponent implements OnInit {
   // variaveis de controle das modals
   visiAddBalance: boolean = false;
   visiAddFixedIncome: boolean = false;
+  visiAddMaximumSpending: boolean = false;
   visiAddFixedCosts: boolean = false;
 
   constructor(
     private dataService: DataService,
-    // private auth: Auth,
   ) { }
 
   ngOnInit(): void {
     this.dataService.getData().subscribe((data: any) => {
       if (data) {
         console.log(data);
+
         this.balance = data.balance;
+        this.maximumSpending = data.maximumSpending;
+        
         this.fixedIncome = data.fixedIncome;
         this.fixedCosts = data.fixedCosts;
-
-
       }
     });
   }
-
-
 
   showModal(modalName: string) {
     if (modalName in this) {

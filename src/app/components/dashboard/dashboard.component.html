@@ -1,28 +1,38 @@
-<header class="text-sm sm:text-base flex gap-2 mb-2.5">
-    <span
-        class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-blue-600"
-        pTooltip="Saldo atual" tooltipPosition="bottom">
-        {{ balance | currency:'BRL':'symbol' }}
-    </span>
-    <span
-        class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-green-500"
-        pTooltip="Disponivel para gastar no mês" tooltipPosition="bottom">
-        {{ maximumSpending | currency:'BRL':'symbol' }}
-    </span>
-    <span
-        class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-red-500"
-        pTooltip="Gasto acima do esperado" tooltipPosition="bottom">
-        R$ 500,00
-    </span>
+<header class="w-full text-sm sm:text-base flex justify-between items-center mb-2.5">
+    <div class="flex gap-2 w-full sm:w-fit">
+        <span
+            class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-blue-600"
+            pTooltip="Saldo atual" tooltipPosition="bottom">
+            {{ balance | currency:'BRL':'symbol' }}
+        </span>
+        <span
+            class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-green-500"
+            pTooltip="Disponivel para gastar no mês" tooltipPosition="bottom">
+            {{ maximumSpending | currency:'BRL':'symbol' }}
+        </span>
+        <span class="bg-slate-950 p-2 rounded-xl border-1 font-semibold w-full max-w-1/3 sm:max-w-28 text-center border-red-500"
+            pTooltip="Gasto acima do esperado" tooltipPosition="bottom">
+            R$ 500,00
+        </span>
+    </div>
+    
 </header>
 
 <section class="flex gap-5 mb-2.5">
-    <div class="bg-slate-950/80 py-5 rounded-xl w-full sm:max-w-3/4">
-        <h3 class="font-semibold pl-5 mb-5 text-xl">Recursos</h3>
+    <div class="bg-slate-950/80 py-5 rounded-xl w-full">
+        <div class="flex justify-between items-center px-5 mb-5">
+            <h3 class="font-semibold  text-xl">Recursos</h3>
+
+
+            <div class="flex gap-3">
+                <i class="pi pi-info-circle" style="font-size: 1rem" pTooltip="Dados do periodo 07/2025" tooltipPosition="bottom"></i>
+                <i class="pi pi-sign-out" style="font-size: 1rem" pTooltip="Sair" tooltipPosition="bottom"></i>
+            </div>
+        </div>
 
         <div class="w-full grid grid-cols-2 md:grid-cols-3 text-sm sm:text-base border-t-2 border-b-2 border-blue-border divide-x-2">
             <button (click)="showModal('visiAddBalance')" class="card-button border-blue-border border-b-2">
-                Registro de saldo
+                Saldo
                 <i class="pi pi-chevron-right"></i>
             </button>
 
@@ -33,29 +43,25 @@
             </button>
 
             <button (click)="showModal('visiAddWindfall')" class="card-button border-blue-border border-b-2 border-r-2 md:border-r-0">
-                Ganhos inesperados
+                Renda extra
                 <i class="pi pi-chevron-right"></i>
             </button>
 
             <button (click)="showModal('visiAddMaximumSpending')" class="card-button border-blue-border border-r-0 md:border-r-2 border-b-2 md:border-b-0">
-                Disponivel para gastar
+                Pra gastar
                 <i class="pi pi-chevron-right"></i>
             </button>
 
             <button (click)="showModal('visiAddFixedCosts')" class="card-button border-blue-border">
-                Despesas fixas
+                Gastos fixos
                 <i class="pi pi-chevron-right"></i>
             </button>
 
             <button (click)="showModal('visiAddUnexpectedCosts')" class="card-button">
-                Despesas inesperadas
+                Gastos extas
                 <i class="pi pi-chevron-right"></i>
             </button>
         </div>
-    </div>
-
-    <div class="hidden sm:block max-w-1/4 max-h-44">
-        <img src="feliz.png" alt="" class="w-full h-full object-contain -scale-x-100" />
     </div>
 </section>
 

@@ -1,6 +1,6 @@
-<main class="max-w-7xl min-h-full w-full m-auto gradient rounded-xl p-5">
+<main class="max-w-7xl w-full m-auto gradient rounded-xl p-5">
     @if (isLoading) {
-        <app-loader ></app-loader>
+        <app-loader></app-loader>
     } @else if (user) {
         <app-dashboard></app-dashboard>
     } @else {

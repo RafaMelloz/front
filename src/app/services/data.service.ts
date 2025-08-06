@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { addDoc, collection, collectionData, doc, docData, Firestore, setDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, docData, Firestore, orderBy, query, setDoc } from '@angular/fire/firestore';
 import { combineLatest, from, map, Observable } from 'rxjs';
 
 @Injectable({
@@ -13,6 +13,20 @@ export class DataService {
     private firestore: Firestore,
   ) { }
 
+  public saveMonthlyData(date: Date, data: any): Observable<void> {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuário não logado');
+
+    // Formata o ID do documento como "ANO-MES" (ex: "2025-07")
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const docId = `${year}-${month}`;
+
+    const monthDocRef = doc(this.firestore, `users/${user.uid}/monthlyRecords/${docId}`);
+
+    return from(setDoc(monthDocRef, data, { merge: true }));
+  }
+  
   public changeBalance(data: any) {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuário não logado');
@@ -44,7 +58,6 @@ export class DataService {
       windfall: data,
     }, { merge: true }));
   }
-
 
   public changeMaximumSpending(data: any) {
     const user = this.auth.currentUser;
@@ -85,59 +98,39 @@ export class DataService {
     return docData(userDocRef);
   }
 
-  // public changeFixedIncome(data: any) {
-  //   const user = this.auth.currentUser;
-  //   if (!user) throw new Error('Usuário não logado');
+  public getMonthlyData(year: number, month: number): Observable<any> {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuário não logado');
 
-  //   console.log(data);
+    const monthStr = month.toString().padStart(2, '0');
+    const docId = `${year}-${monthStr}`;
 
-  //   const fixedIncomeDoc = collection(this.firestore, `users/${user.uid}/fixedIncome`);
+    const monthDocRef = doc(this.firestore, `users/${user.uid}/monthlyRecords/${docId}`);
+    return docData(monthDocRef);
+  }
 
-  //   return from(addDoc(fixedIncomeDoc, {
-  //     data,
-  //   }));
-  // }
+  /**
+   * Busca o histórico completo de todos os registros mensais, ordenados do mais recente para o mais antigo.
+   */
+  public getAllMonthlyRecords(): Observable<any[]> {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuário não logado');
 
+    const recordsCollection = collection(this.firestore, `users/${user.uid}/monthlyRecords`);
+    // Cria uma query para ordenar os documentos pelo seu ID (que é a data "AAAA-MM") em ordem decrescente
+    const q = query(recordsCollection, orderBy('__name__', 'desc'));
 
+    return collectionData(q, { idField: 'monthId' }); // idField adiciona o ID do doc (ex: "2025-07") ao objeto
+  }
 
-  // public changeFixedIncome(data: any) {
-  //   const user = this.auth.currentUser;
-  //   if (!user) throw new Error('Usuário não logado');
+  /**
+   * Função para buscar os dados gerais do usuário (os que não mudam mês a mês)
+   */
+  public getUserProfile(): Observable<any> {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Usuário não logado');
 
-  //   console.log(data);
-    
-  //   const fixedIncomeDoc = collection(this.firestore, `users/${user.uid}/fixedIncome`);
-
-  //   return from(addDoc(fixedIncomeDoc, {
-  //     fixedIncome: data,
-  //     createdAt: new Date(),
-  //   }));
-  // }
-
-
-
-  // adiciona uma tabela (colecction)
-  // public registerBalance(data: any) {
-  //   const user = this.auth.currentUser;
-  //   if (!user) throw new Error('Usuário não logado');
-
-  //   const balanceDoc = collection(this.firestore, `users/${user.uid}/balance`);
-
-  //   return from(addDoc(balanceDoc, {
-  //     balance: data.balance,
-  //   }));
-  // }
-
-  // adicionar um linha de tabela (doc)
-  // public registerBalance(data: any) {
-  //   const user = this.auth.currentUser;
-  //   if (!user) throw new Error('Usuário não logado');
-
-  //   const balanceDoc = doc(this.firestore, `users/${user.uid}/balance/balanceInfo`);
-
-  //   return from(setDoc(balanceDoc, {
-  //     balance: data.balance,
-  //     updateAt: new Date()
-  //   }));
-  // }
+    const userDocRef = doc(this.firestore, `users/${user.uid}`);
+    return docData(userDocRef);
+  }
 }

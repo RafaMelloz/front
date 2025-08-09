@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './pages/login/login.component';
 import { AuthService } from './services/auth.service';
 import { User } from '@angular/fire/auth';
 import { Subscription, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './components/loader/loader.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 @Component({
   selector: 'app-root',

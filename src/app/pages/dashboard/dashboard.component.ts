@@ -1,17 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
-
-import { AddBalanceComponent } from "../modals/add-balance/add-balance.component";
-import { AddFixedIncomeComponent } from "../modals/add-fixed-income/add-fixed-income.component";
-import { EarningSpendingChartComponent } from "../earning-spending-chart/earning-spending-chart.component";
-import { EarningSpendingTableComponent } from "../earning-spending-table/earning-spending-table.component";
+import { AddBalanceComponent } from '../../components/modals/add-balance/add-balance.component';
+import { AddFixedIncomeComponent } from '../../components/modals/add-fixed-income/add-fixed-income.component';
+import { AddFixedCostsComponent } from '../../components/modals/add-fixed-costs/add-fixed-costs.component';
+import { AddMaximumSpendingComponent } from '../../components/modals/add-maximum-spending/add-maximum-spending.component';
+import { EarningSpendingChartComponent } from '../../components/earning-spending-chart/earning-spending-chart.component';
+import { EarningSpendingTableComponent } from '../../components/earning-spending-table/earning-spending-table.component';
+import { AddWindfallComponent } from '../../components/modals/add-windfall/add-windfall.component';
+import { AddUnexpectedCostsComponent } from '../../components/modals/add-unexpected-costs/add-unexpected-costs.component';
 import { DataService } from '../../services/data.service';
-import { CommonModule } from '@angular/common';
-import { AddFixedCostsComponent } from '../modals/add-fixed-costs/add-fixed-costs.component';
-import { AddMaximumSpendingComponent } from "../modals/add-maximum-spending/add-maximum-spending.component";
-import { AddWindfallComponent } from "../modals/add-windfall/add-windfall.component";
-import { AddUnexpectedCostsComponent } from "../modals/add-unexpected-costs/add-unexpected-costs.component";
+
 
 interface Data {
   name: string;

@@ -1,7 +1,5 @@
 <main class="max-w-7xl w-full m-auto gradient rounded-xl p-5">
-    @if (isLoading) {
-        <app-loader></app-loader>
-    } @else if (user) {
+    @if (authService.user()) {
         <app-dashboard></app-dashboard>
     } @else {
         <app-login></app-login>

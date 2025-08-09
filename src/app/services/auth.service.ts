@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Auth, User, authState, signInWithPopup, signOut, GoogleAuthProvider } from '@angular/fire/auth';
 import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
@@ -7,13 +7,13 @@ import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
   providedIn: 'root'
 })
 export class AuthService {
-  user$: Observable<User | null>;
+  user = signal<User | null>(null);
 
   constructor(
     private auth: Auth,
     private firestore: Firestore
   ) {
-    this.user$ = authState(this.auth); // Observable com o estado do usuário
+    authState(this.auth).subscribe(user => this.user.set(user));
   }
 
   // Logar com google

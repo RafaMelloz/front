@@ -10,7 +10,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 @Component({
   selector: 'app-root',
   imports: [
-    LoaderComponent,
+    // LoaderComponent,
     DashboardComponent,
     LoginComponent,
     CommonModule,
@@ -18,23 +18,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
   templateUrl: './app.component.html',
 })
 
-export class AppComponent implements OnInit {
-  public user: User | null = null;
-  public isLoading = true;
-  private sub!: Subscription;
-
+export class AppComponent {
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
   ) { }
-
-  ngOnInit(): void {
-    this.sub = this.authService.user$.subscribe(user => {
-      this.user = user;
-      this.isLoading = false;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
 }

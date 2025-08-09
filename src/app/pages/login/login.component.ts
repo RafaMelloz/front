@@ -10,24 +10,15 @@ import { Subscription } from 'rxjs';
 })
 
 export class LoginComponent {
-  public user: User | null = null;
-  private sub!: Subscription;
 
   constructor(
     public auth: AuthService
   ) { }
-
-  ngOnInit(): void {
-    this.sub = this.auth.user$.subscribe(user => {
-      this.user = user;
-    });    
-  }
 
   loginGoogle() {
     this.auth.loginGoogle();
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 }

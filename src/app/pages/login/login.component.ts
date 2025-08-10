@@ -1,24 +1,16 @@
 import { Component } from '@angular/core';
-import { User } from '@angular/fire/auth';
 import { AuthService } from '../../services/auth.service';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [],
   templateUrl: './login.component.html',
 })
-
 export class LoginComponent {
+  constructor(public auth: AuthService, private router: Router) { }
 
-  constructor(
-    public auth: AuthService
-  ) { }
-
-  loginGoogle() {
-    this.auth.loginGoogle();
-  }
-
-  ngOnDestroy(): void {
+  async loginGoogle() {
+    await this.auth.loginGoogle();
+    this.router.navigate(['/dashboard']);
   }
 }

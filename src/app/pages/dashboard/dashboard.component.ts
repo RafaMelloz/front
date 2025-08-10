@@ -11,6 +11,8 @@ import { EarningSpendingTableComponent } from '../../components/earning-spending
 import { AddWindfallComponent } from '../../components/modals/add-windfall/add-windfall.component';
 import { AddUnexpectedCostsComponent } from '../../components/modals/add-unexpected-costs/add-unexpected-costs.component';
 import { DataService } from '../../services/data.service';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 
 interface Data {
@@ -56,7 +58,9 @@ export class DashboardComponent implements OnInit {
   visiAddFixedCosts: boolean = false;
 
   constructor(
-    private dataService: DataService,
+    private router: Router, 
+    private dataService: DataService, 
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -90,5 +94,11 @@ export class DashboardComponent implements OnInit {
 
   calculateTotalIncome(){
     
+  }
+
+  logout() {
+    this.auth.logout().then(() => {
+      this.router.navigate(['/login']);
+    });
   }
 }

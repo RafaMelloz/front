@@ -1,17 +1,15 @@
-// guards/auth.guard.ts
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Auth } from '@angular/fire/auth';
+import { authState } from 'rxfire/auth';
+import { map, take } from 'rxjs/operators';
 
 export const authGuard: CanActivateFn = () => {
-    const authService = inject(AuthService);
     const router = inject(Router);
+    const auth = inject(Auth);
 
-    const user = authService.user();
-    if (user) {
-        return true;
-    }
-
-    router.navigate(['/login']);
-    return false;
+    return authState(auth).pipe(
+        take(1),
+        map(user => !!user || router.createUrlTree(['/login']))
+    );
 };

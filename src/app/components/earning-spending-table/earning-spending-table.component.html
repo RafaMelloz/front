@@ -5,9 +5,14 @@
             <h3 class="font-semibold text-xl text-center border-blue-border">Ganhos</h3>
     
             <ul class="text-left py-4 px-2 border-blue-border divide-y">
-                @for (item of mockGanho; track $index) {
+                @for (item of totalProfit(); track $index) {
                     <li class="text-xs sm:text-sm flex justify-between mb-2 pb-2 border-blue-border">
-                        <span class="truncate">{{ item.date | date:'dd/MM' }} - {{ item.name }}</span> 
+                        <span class="truncate capitalize">
+                            @if (item.date) {
+                                {{ `${item.date} -` }}
+                            }  
+                            {{ item.name }}
+                        </span> 
                         <span class="text-emerald-500 font-semibold">{{ item.value | currency:'BRL':'symbol' }}</span>
                     </li>
                 }
@@ -18,9 +23,14 @@
             <h3 class="font-semibold text-xl text-center border-blue-border">Gastos</h3>
     
             <ul class="text-left py-4 px-2 border-blue-border divide-y">
-                @for (item of mockGasto; track $index) {
+                @for (item of totalExpense(); track $index) {
                     <li class="text-xs sm:text-sm flex justify-between mb-2 pb-2 border-blue-border">
-                        <span class="truncate">{{ item.date | date:'dd/MM' }} - {{ item.name }}</span>
+                        <span class="truncate capitalize">
+                            @if (item.date) {
+                            {{ `${item.date} -` }}
+                            }
+                            {{ item.name }}
+                        </span>
                         <span class="text-red-500 font-semibold">{{ item.value | currency:'BRL':'symbol' }}</span>
                     </li>
                 }

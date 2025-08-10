@@ -11,6 +11,7 @@ import { DefaultTableComponent } from '../default-table/default-table.component'
 interface DataTable {
   name: string;
   value: string;
+  date?: string;
 }
 
 
@@ -55,9 +56,20 @@ export class AddUnexpectedCostsComponent implements OnDestroy, OnInit {
 
   addItemTable() {
     if (this.formData.valid) {
-      this.dataTable.push(this.formData.value);
+      const newItem = {
+        ...this.formData.value,
+        date: this.getCurrentDateString()
+      };
+      this.dataTable.push(newItem);
       this.formData.reset();
     }
+  }
+
+  private getCurrentDateString(): string {
+    const now = new Date();
+    const day = now.getDate().toString().padStart(2, '0');
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    return `${day}/${month}`;
   }
 
   sendForm() {

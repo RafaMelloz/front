@@ -14,6 +14,7 @@ import { DataService } from '../../services/data.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Data } from '../../shared/interfaces/data';
+import { Totals } from '../../shared/interfaces/totals';
 
 @Component({
   selector: 'app-dashboard',
@@ -49,6 +50,8 @@ export class DashboardComponent implements OnInit {
   public totalProfit = signal<Data[]>([]);
   public totalExpense = signal<Data[]>([]);
 
+  public totals = signal<Totals[]>([]);
+  
   // variaveis de controle das modals
   public visiAddBalance: boolean = false;
   public visiAddFixedIncome: boolean = false;
@@ -81,9 +84,16 @@ export class DashboardComponent implements OnInit {
         this.fixedCosts = data.fixedCosts;
       }
       this.gastoAcimadoLimite = this.calculaGastoAcimadoLimite(this.maximumSpending, this.unexpectedCosts);
-
       this.getAllIncome();
       this.getAllCosts();
+
+      const mesesAbreviados = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+      const mesAtual = mesesAbreviados[new Date().getMonth()];
+      this.totals.set([{
+        profit: this.somaValores(this.totalProfit()),
+        expense: this.somaValores(this.totalExpense()),
+        date: mesAtual
+      }]);
     });
   }
 
@@ -93,6 +103,10 @@ export class DashboardComponent implements OnInit {
 
   getAllCosts() {
     this.totalExpense.set([...this.fixedCosts, ...this.unexpectedCosts]);
+  }
+
+  somaValores(arr: Data[]): number {
+    return arr.reduce((acc, item) => acc + Number(item.value), 0);
   }
 
   calculaGastoAcimadoLimite(maxSpeding: number, unexpectedCosts:Data[]) {

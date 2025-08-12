@@ -24,13 +24,13 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     provideFirebaseApp(() => initializeApp({
-      projectId: "gestao-financeira-33d24",
-      appId: "1:159318331490:web:637fe7b75fa2be63d5413b",
-      storageBucket: "gestao-financeira-33d24.appspot.com",
-      apiKey: "AIzaSyC4pA5dqq87kWVVRSUoiozVa0rErm5oxsA",
-      authDomain: "gestao-financeira-33d24.firebaseapp.com",
-      messagingSenderId: "159318331490",
-      measurementId: "G-D45MX8EMN9"
+      projectId: process.env['NG_APP_PROJECT_ID'],
+      appId: process.env['NG_APP_APP_ID'],
+      storageBucket: process.env['NG_APP_STORAGE_BUCKET'],
+      apiKey: process.env['NG_APP_API_KEY'],
+      authDomain: process.env['NG_APP_AUTH_DOMAIN'],
+      messagingSenderId: process.env['NG_APP_MESSAGING_SENDER_ID'],
+      measurementId: process.env['NG_APP_MEASUREMENT_ID']
     })),
     provideAuth(() => getAuth()),
     // REMOVIDO AppCheck

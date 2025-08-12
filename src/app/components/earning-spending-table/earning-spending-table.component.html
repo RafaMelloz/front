@@ -4,7 +4,7 @@
         <div class="pt-3 sm:pt-5 border-blue-border">
             <h3 class="font-semibold text-xl text-center border-blue-border">Ganhos</h3>
     
-            <ul class="text-left py-4 px-2 border-blue-border divide-y">
+            <ul class="text-left py-4 px-2 border-blue-border divide-y custom-height overflow-y-auto">
                 @for (item of totalProfit(); track $index) {
                     <li class="text-xs sm:text-sm flex justify-between mb-2 pb-2 border-blue-border">
                         <span class="truncate capitalize">
@@ -17,17 +17,21 @@
                     </li>
                 }
             </ul>
+
+            <div class="border-t-2 border-blue-border flex justify-end px-2 py-1 font-semibold text-emerald-500">
+                {{ totalProfitValue | currency:'BRL':'symbol'}}
+            </div>  
         </div>
     
         <div class="pt-3 sm:pt-5 border-blue-border">
             <h3 class="font-semibold text-xl text-center border-blue-border">Gastos</h3>
     
-            <ul class="text-left py-4 px-2 border-blue-border divide-y">
+            <ul class="text-left py-4 px-2 border-blue-border divide-y custom-height overflow-y-auto">
                 @for (item of totalExpense(); track $index) {
                     <li class="text-xs sm:text-sm flex justify-between mb-2 pb-2 border-blue-border">
                         <span class="truncate capitalize">
                             @if (item.date) {
-                            {{ `${item.date} -` }}
+                                {{ `${item.date} -` }}
                             }
                             {{ item.name }}
                         </span>
@@ -35,13 +39,10 @@
                     </li>
                 }
             </ul>
+
+            <div class="border-t-2 border-blue-border flex justify-end px-2 py-1 font-semibold text-red-500">
+                {{ totalExpenseValue | currency:'BRL':'symbol'}}
+            </div>
         </div>
-    </div>
-    
-    <div class="flex justify-end p-3 border-t-2 border-blue-border text-sm">    
-        <a href="#" class="flex items-center gap-1 text-blue-600">
-            <span>Ver mais</span>
-            <span class="pi pi-arrow-right" style="font-size: 0.75rem;"></span>
-        </a>
     </div>
 </div>

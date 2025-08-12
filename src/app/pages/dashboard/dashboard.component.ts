@@ -132,7 +132,7 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     this.auth.logout().then(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['']);
     });
   }
 }

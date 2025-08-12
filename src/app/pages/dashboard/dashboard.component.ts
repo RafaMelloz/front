@@ -1,20 +1,28 @@
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
-import { AddBalanceComponent } from '../../components/modals/add-balance/add-balance.component';
-import { AddFixedIncomeComponent } from '../../components/modals/add-fixed-income/add-fixed-income.component';
-import { AddFixedCostsComponent } from '../../components/modals/add-fixed-costs/add-fixed-costs.component';
-import { AddMaximumSpendingComponent } from '../../components/modals/add-maximum-spending/add-maximum-spending.component';
-import { EarningSpendingChartComponent } from '../../components/earning-spending-chart/earning-spending-chart.component';
-import { EarningSpendingTableComponent } from '../../components/earning-spending-table/earning-spending-table.component';
-import { AddWindfallComponent } from '../../components/modals/add-windfall/add-windfall.component';
-import { AddUnexpectedCostsComponent } from '../../components/modals/add-unexpected-costs/add-unexpected-costs.component';
+
+// Services
 import { DataService } from '../../services/data.service';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+
+// Interfaces And Utils
 import { Data } from '../../shared/interfaces/data';
 import { Totals } from '../../shared/interfaces/totals';
+import { calculateOverLimitExpense } from '../../shared/utils/calculateMethods';
+
+// Modals
+import { AddBalanceComponent } from '../../components/modals/add-balance/add-balance.component';
+import { AddWindfallComponent } from '../../components/modals/add-windfall/add-windfall.component';
+import { AddFixedCostsComponent } from '../../components/modals/add-fixed-costs/add-fixed-costs.component';
+import { AddFixedIncomeComponent } from '../../components/modals/add-fixed-income/add-fixed-income.component';
+import { AddUnexpectedCostsComponent } from '../../components/modals/add-unexpected-costs/add-unexpected-costs.component';
+import { AddMaximumSpendingComponent } from '../../components/modals/add-maximum-spending/add-maximum-spending.component';
+// Table and chart 
+import { EarningSpendingChartComponent } from '../../components/earning-spending-chart/earning-spending-chart.component';
+import { EarningSpendingTableComponent } from '../../components/earning-spending-table/earning-spending-table.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,12 +42,10 @@ import { Totals } from '../../shared/interfaces/totals';
   templateUrl: './dashboard.component.html',
 })
 
-
-
 export class DashboardComponent implements OnInit {
   public balance: number = 0;
   public maximumSpending: number = 0;
-  public gastoAcimadoLimite: number = 0;
+  public overLimitExpense: number = 0;
 
   public windfall: Data[] = [];
   public unexpectedCosts: Data[] = [];
@@ -68,14 +74,11 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
-    this.calculaGastoAcimadoLimite(this.maximumSpending, this.unexpectedCosts);
   }
 
   getData(){
     this.dataService.getData().subscribe((data: any) => {
       if (data) {
-        console.log('Dados recebidos:', data);
-        
         this.balance = data.balance;
         this.maximumSpending = data.maximumSpending;
         this.windfall = data.windfall;
@@ -83,16 +86,14 @@ export class DashboardComponent implements OnInit {
         this.fixedIncome = data.fixedIncome;
         this.fixedCosts = data.fixedCosts;
       }
-      this.gastoAcimadoLimite = this.calculaGastoAcimadoLimite(this.maximumSpending, this.unexpectedCosts);
+      this.overLimitExpense = calculateOverLimitExpense(this.maximumSpending, this.unexpectedCosts);
       this.getAllIncome();
       this.getAllCosts();
 
-      const mesesAbreviados = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
-      const mesAtual = mesesAbreviados[new Date().getMonth()];
       this.totals.set([{
-        profit: this.somaValores(this.totalProfit()),
-        expense: this.somaValores(this.totalExpense()),
-        date: mesAtual
+        profit: this.sumValues(this.totalProfit()),
+        expense: this.sumValues(this.totalExpense()),
+        date: this.getCurrentMonth()
       }]);
     });
   }
@@ -105,26 +106,22 @@ export class DashboardComponent implements OnInit {
     this.totalExpense.set([...this.fixedCosts, ...this.unexpectedCosts]);
   }
 
-  somaValores(arr: Data[]): number {
+  sumValues(arr: Data[]): number {
     return arr.reduce((acc, item) => acc + Number(item.value), 0);
   }
-
-  calculaGastoAcimadoLimite(maxSpeding: number, unexpectedCosts:Data[]) {
-    let value = 0
-
-    for (let i = 0; i < unexpectedCosts.length; i++) {
-      value += unexpectedCosts[i].value ? parseFloat(unexpectedCosts[i].value) : 0;
-    }
-
-    return value > maxSpeding ? value - maxSpeding : 0;
-  }
-
 
   showModal(modalName: string) {
     if (modalName in this) {
       (this as any)[modalName] = true;
     }
   }
+
+  getCurrentMonth(): string {
+    const months = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+    const currentMonth = months[new Date().getMonth()];
+
+    return currentMonth;
+  }    
 
   visibilityChange(event: { name: string; value: boolean }) {
     const { name, value } = event;

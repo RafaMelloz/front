@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DataService } from '../../../services/data.service';
 import { Subscription } from 'rxjs';
+import { ToastService } from '../../../libs/toastr/toast.service';
 
 @Component({
   selector: 'modal-add-balance',
@@ -17,16 +18,14 @@ import { Subscription } from 'rxjs';
 
 export class AddBalanceComponent implements OnInit, OnDestroy{
   public formData!: FormGroup;
-  private unsubscribe: Subscription[] = [];
   @Input() visible: boolean = false;
   @Input() variableName: string = '';
   @Output() visibilityChanged = new EventEmitter<{ name: string, value: boolean }>();
 
-  constructor(
-    private form: FormBuilder,
-    private dataService: DataService,
-  ) {}
-  
+  private unsubscribe: Subscription[] = [];
+  private form: FormBuilder = inject(FormBuilder);
+  private dataService: DataService = inject(DataService);
+  private toastService: ToastService = inject(ToastService);
 
   ngOnInit(): void {
     this.initForm();
@@ -40,7 +39,11 @@ export class AddBalanceComponent implements OnInit, OnDestroy{
 
   sendForm(){
     const sub = this.dataService.changeBalance(this.formData.value).subscribe({
-      next: (res) => {
+      next: () => {
+        this.toastService.Success('Saldo atualizado!');
+      },
+      error: () => {
+        this.toastService.Error('Erro ao atualizar saldo');
       }
     });
 

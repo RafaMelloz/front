@@ -1,0 +1,48 @@
+.toaster{
+    position: fixed;
+    z-index: 9999;
+    display: flex;
+}
+
+/* ---------------------------- */
+.bottom-left {
+    bottom: 20px;
+    left: 20px;
+    align-items: flex-start;
+}
+.top-left {
+    top: 20px;
+    left: 20px;
+    align-items: flex-start;
+}
+/* ---------------------------- */
+
+/* ---------------------------- */
+.top-center{
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+}
+.bottom-center{
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+}
+/* ---------------------------- */
+
+/* ---------------------------- */
+.top-right{
+    top: 20px;
+    right: 20px;
+    align-items: flex-end;
+}
+.bottom-right{
+    bottom: 20px;
+    right: 20px;
+    align-items: flex-end;
+}
+/* ---------------------------- */
+
+

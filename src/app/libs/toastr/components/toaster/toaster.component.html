@@ -1,0 +1,17 @@
+<div 
+    class="toaster" 
+    [ngClass]="position"
+    [style.flex-direction]="reverseOrder ? 'column' : 'column-reverse'"
+    > 
+    @for (toast of toasts(); track $index) {
+        <Toast 
+            @toastAnimation 
+            [message]="toast.message" 
+            [duration]="toast.options.duration"
+            [type]="toast.type"
+            [progressBar]="toast.options.progressBar"
+        />
+    }
+</div>
+
+

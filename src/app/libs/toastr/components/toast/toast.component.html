@@ -1,0 +1,45 @@
+<div class="toast">
+    @switch (type) {
+        @case ('success') {
+            <div class="icon">
+                <svg viewBox="0 0 52 52" class="mark">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" />
+                    <path class="mark-path" d="M14 27l7 7 16-16" />
+                </svg>
+            </div>
+        }
+        @case ('error') {
+            <div class="icon">
+                <svg viewBox="0 0 52 52" class="mark">
+                    <circle class="xmark-circle" cx="26" cy="26" r="25" />
+                    <path class="mark-path" d="M16 16 L36 36 M36 16 L16 36" />
+                </svg>
+            </div>
+        }
+        @case ('promise') {
+            <div class="icon">
+                <svg viewBox="0 0 50 50" class="mark">
+                    <circle class="spinner-bg" cx="25" cy="25" r="22" />
+                    <circle class="spinner-fg" cx="25" cy="25" r="22" />
+                </svg>
+            </div>
+        }
+
+    }
+
+    <span>{{message}}</span>
+
+    @if (progressBar) {
+        <div class="progress-bar-container">
+            <div class="progress-bar" [style.width]="progress + '%'"
+                [style.background-color]="
+                    type === 'success' 
+                    ? '#4caf50' 
+                    : type === 'error' 
+                    ? '#f44336' 
+                    : '#2196F3'
+                ">
+            </div>
+        </div>
+    }
+</div>
